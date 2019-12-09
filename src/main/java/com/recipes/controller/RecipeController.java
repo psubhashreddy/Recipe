@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@CrossOrigin(origins = {"http://localhost:8081"})
 @RestController
 @RequestMapping("/api")
 @Api(value = "Recipe Management Application")
@@ -118,9 +120,10 @@ public class RecipeController {
 	        @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
 	})
 	@DeleteMapping(value = "/recipe/delete/{id}")
-	public void deleteRecipe(
+	public String deleteRecipe(
 			@ApiParam(value = "Recipe is being deleted from database", required = true)
 			@PathVariable int id) throws NoDataFoundException{
 		recipeService.deleteRecipe(id);
+		return "Deleted Recipe id:"+id+" Successfully!";
 	}
 }

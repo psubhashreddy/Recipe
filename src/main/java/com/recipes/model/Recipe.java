@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.recipes.utilities.DateUtil;
 
 @Entity
 @Table(name = "RECIPE")
@@ -71,8 +72,12 @@ public class Recipe {
 		this.description = description;
 	}
 
-	public String getFoodType() {
-		return foodType;
+	public char getFoodType() {
+		if(foodType.equalsIgnoreCase("VEGETARIAN")) {
+			return 'Y';
+		}else {
+			return 'N';
+		}
 	}
 
 	public void setFoodType(String foodType) {
@@ -87,8 +92,8 @@ public class Recipe {
 		this.servedTo = servedTo;
 	}
 
-	public LocalDateTime getCreatedOn() {
-		return createdOn;
+	public String getCreatedOn() {
+		return DateUtil.formatDate(createdOn);
 	}
 
 	public void setCreatedOn(LocalDateTime createdOn) {

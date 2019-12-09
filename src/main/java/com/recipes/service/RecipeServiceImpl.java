@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.recipes.exception.NoDataFoundException;
 import com.recipes.model.Recipe;
 import com.recipes.repository.RecipeRepository;
+import com.recipes.utilities.ResponseFilter;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,7 +30,7 @@ public class RecipeServiceImpl implements RecipeService {
 		log.info("In get method of recipe Service by Id:{}", recipeId);
 		Optional<Recipe> recipe = recipeRepository.findById(recipeId);
 		if(recipe.isPresent()) {
-			return recipe.get();
+			return ResponseFilter.filterObject(recipe.get());
 		}else {
 			throw new NoDataFoundException("There is no recipe by name : "+recipeId);
 		}
@@ -41,7 +42,7 @@ public class RecipeServiceImpl implements RecipeService {
 		log.info("In get method of recipe Service by name:{}",recipeName);
 		Optional<Recipe> recipe = recipeRepository.findByName(recipeName);
 		if(recipe.isPresent()) {
-			return recipe.get();
+			return ResponseFilter.filterObject(recipe.get());
 		}else {
 			throw new NoDataFoundException("There is no recipe by name : "+recipeName);
 		}
@@ -51,7 +52,7 @@ public class RecipeServiceImpl implements RecipeService {
 	public final List<Recipe> getAllRecipes(){
 		List<Recipe> recipes = recipeRepository.findAll();
 		if(recipes.size() > 0) {
-			return recipes;
+			return ResponseFilter.filterObjectList(recipes);
 		}else {
 			return new ArrayList<Recipe>();
 		}
